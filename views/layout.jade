@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    p
+      a(href='/')= 'Home'
+      = ' '
+      if (!user)
+        a(href='/login')= 'Log In'
+      else
+        a(href='/account')= 'My Account'
+        = ' '
+        a(href='/logout')= 'Log Out'
+
+    block content
