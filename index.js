@@ -2,19 +2,12 @@ var express = require('express')
   , passport = require('passport')
   , path = require('path')
   , util = require('util')
-  , FacebookStrategy = require('passport-facebook').Strategy
   , KatumaOAuth2Strategy = require('./lib/passport-katuma').Strategy
   , logger = require('morgan')
   , session = require('express-session')
   , bodyParser = require("body-parser")
   , cookieParser = require("cookie-parser")
   , methodOverride = require('method-override');
-
-CLIENT_ID = '7ff06b00f5de3bdadaeaa8ebe66f14f0d913427887b2684d578a84497392b6ad';
-CLIENT_SECRET = '787b825e435eba3895321bdb6a81a4dd155f4d6eaa5a68ee9cadd5aed3560393';
-OAUTH_SERVER_URL = 'http://localhost:3000';
-CLIENT_URL = 'http://localhost:8000';
-
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -32,44 +25,17 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-
-// Use the FacebookStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Facebook
-//   profile), and invoke a callback with a user object.
-// passport.use(new FacebookStrategy({
-//     clientID: FACEBOOK_APP_ID,
-//     clientSecret: FACEBOOK_APP_SECRET,
-//     callbackURL: "http://localhost:8000/auth/facebook/callback"
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     // asynchronous verification, for effect...
-//     process.nextTick(function () {
-
-//       // To keep the example simple, the user's Facebook profile is returned to
-//       // represent the logged-in user.  In a typical application, you would want
-//       // to associate the Facebook account with a user record in your database,
-//       // and return that user instead.
-//       return done(null, profile);
-//     });
-//   }
-// ));
-
 passport.use(new KatumaOAuth2Strategy({
-    clientID: CLIENT_ID
-  , clientSecret: CLIENT_SECRET
-  , authorizationURL: OAUTH_SERVER_URL + '/oauth/authorize'
-  , profileURL:  OAUTH_SERVER_URL + '/api/v1/me'
-  , tokenURL: OAUTH_SERVER_URL + '/oauth/token'
-  , callbackURL: CLIENT_URL + '/auth/callback'
+    clientID: process.env.CLIENT_ID
+  , clientSecret: process.env.CLIENT_SECRET
+  , authorizationURL: process.env.OAUTH_SERVER_URL + '/oauth/authorize'
+  , profileURL:  process.env.OAUTH_SERVER_URL + '/api/v1/me'
+  , tokenURL: process.env.OAUTH_SERVER_URL + '/oauth/token'
+  , callbackURL: process.env.CLIENT_URL + '/auth/callback'
   }
 , function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
-    console.log('accessToken ', accessToken)
-    console.log('refreshToken ', refreshToken)
-    console.log('profile ', profile)
     process.nextTick(function () {
-
       // To keep the example simple, the user's Facebook profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Facebook account with a user record in your database,
@@ -82,18 +48,29 @@ passport.use(new KatumaOAuth2Strategy({
 var app = express();
 
 // configure Express
-  app.set('views', path.join(__dirname, 'views'));
-  app.set('view engine', 'jade');
-  app.use(logger());
-  app.use(cookieParser());
-  app.use(bodyParser());
-  app.use(methodOverride());
-  app.use(session({ secret: 'keyboard cat' }));
-  // Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(express.static(__dirname + '/public'));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(logger('combined'));
+app.use(cookieParser());
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+app.use(session({
+  secret: process.env.SECRET_SESSION
+, resave: true
+, saveUninitialized: false
+}));
+
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function(req, res){
@@ -149,4 +126,5 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login')
 }
 
-module.exports = app;
+// Listen for incoming requests and serve them.
+app.listen(process.env.PORT);
