@@ -1,6 +1,10 @@
 {
   "name": "katuma-node",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": " git@github.com:andresgutgon/katuma-node.git"
+  },
   "dependencies": {
     "express": ">= 4.4.5",
     "jade": "~1.9.2",
