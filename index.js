@@ -17,7 +17,6 @@ var express = require('express')
 //   have a database of user records, the complete Facebook profile is serialized
 //   and deserialized.
 passport.serializeUser(function(user, done) {
-  console.log('user ', user)
   done(null, user);
 });
 
