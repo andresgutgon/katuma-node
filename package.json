@@ -1,0 +1,60 @@
+{
+  "name": "katuma-node",
+  "version": "0.0.1",
+  "description": "Client application writen in Node for Katuma API",
+  "author": "Andres Gutierrez <andresgutgon@gmail.com>",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": " git@github.com:andresgutgon/katuma-node.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "development": "webpack-dev-server --config webpack/development.config.js --progress --colors --port 2992 --inline",
+    "hot-development": "webpack-dev-server --config webpack/hot-development.config.js --hot --progress --colors --port 2992 --inline",
+    "build": "webpack --config webpack/production.config.js --progress --profile --colors",
+  },
+  "keywords": [
+    "katuma",
+    "cooperatives",
+    "react",
+    "isomorphic",
+  ],
+  "dependencies": {
+    "babel": "^4.6.3",
+    "body-parser": "^1.6.4",
+    "cookie-parser": "^1.3.3",
+    "csurf": "^1.6.3",
+    "debug": "^2.0.0",
+    "express": "^4.3.2",
+    "express-state": "^1.2.0",
+    "flux-router-component": "^0.5.13",
+    "fluxible": "^0.2.4",
+    "fluxible-plugin-fetchr": "^0.2.3",
+    "fluxible-plugin-routr": "^0.3.0",
+    "react": "^0.12.0",
+    "react-router": "^0.12.0",
+    "serialize-javascript": "^1.0.0",
+    "serve-favicon": "^2.1.6"
+  },
+  "devDependencies": {
+    "babel-loader": "^4.0.0",
+    "nodemon": "^1.2.1",
+    "async": "^0.9.0",
+    "css-loader": "^0.9.0",
+    "file-loader": "^0.8.1",
+    "jsx-loader": "^0.12.0",
+    "null-loader": "^0.1.0",
+    "react": "^0.12.1",
+    "react-hot-loader": "^1.0.0",
+    "react-proxy-loader": "^0.3.1",
+    "react-router": "^0.12.0",
+    "style-loader": "^0.8.2",
+    "superagent": "^0.21.0",
+    "url-loader": "^0.5.5",
+    "uuid": "^2.0.1",
+    "webpack": "^1.4.12",
+    "webpack-dev-server": "^1.6.5"
+
+  }
+}

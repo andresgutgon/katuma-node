@@ -1,0 +1,1 @@
+web: node server.js && webpack-dev-server --config webpack/development.config.js --progress --colors --port 2992 --inline

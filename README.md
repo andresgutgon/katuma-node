@@ -11,4 +11,4 @@ The objective of this project is develop an [Isomorphic App](http://nerds.airbnb
 1. Copy `.env.example` to `.env`.
 2. Install Node foreman `npm install -g foreman`
 3. npm install
-4. Start the server with Node foreman: `nf start web=1`
+4. Start the server with Node foreman: `nf start web=1  -f Procfile.dev`
